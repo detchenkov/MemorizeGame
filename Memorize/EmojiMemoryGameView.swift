@@ -10,15 +10,25 @@ import SwiftUI
 struct EmojiMemoryGameView: View {
 	@ObservedObject var viewModel: EmojiMemoryGame
 	var body: some View {
-		Grid (items: viewModel.cards) { card in
-				CardView(card: card).onTapGesture {
-						viewModel.choose(card: card)
-					}
-					.padding(5)
+		VStack{
+			HStack{
+				Text(viewModel.theme).font(Font.title)
+				Spacer()
+				Text("Score: \(viewModel.score)").font(Font.title)
+			}.padding()
+			Grid (items: viewModel.cards) { card in
+					CardView(card: card).onTapGesture {
+							viewModel.choose(card: card)
+						}
+						.padding(5)
+				}
+				.foregroundColor(viewModel.color)
+				.padding()
 			}
-			.foregroundColor(Color.orange)
-			.padding()
-		}
+			Button("New game") {
+				viewModel.newGame()
+			}.padding()
+	}
 }
 
 struct CardView: View {
@@ -51,9 +61,6 @@ struct CardView: View {
 		min(size.width, size.height) * 0.75
 	}
 }
-
-
-
 
 
 struct ContentView_Previews: PreviewProvider {
